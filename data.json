@@ -1,5 +1,13 @@
 {
- "rounds": [],
+ "rounds": [
+  {
+   "id": 84,
+   "name": "Amy",
+   "date": "2026-08-27",
+   "course": "8월",
+   "score": 92
+  }
+ ],
  "transfers": [],
  "adjusts": [
   {
@@ -918,5 +926,5 @@
    "memo": ""
   }
  },
- "seq": 83
+ "seq": 84
 }
