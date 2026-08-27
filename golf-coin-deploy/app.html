@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>골프 스코어 · 코인</title>
+<style>
+:root{--g:#1b7f4b;--g2:#14603a;--bg:#f4f7f5;--card:#fff;--line:#e2e8e3;--muted:#6b7a6f}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Malgun Gothic","Apple SD Gothic Neo",sans-serif;background:var(--bg);color:#1c2320}
+header{background:linear-gradient(135deg,var(--g),var(--g2));color:#fff;padding:20px 0}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+header h1{margin:0;font-size:19px}
+header p{margin:5px 0 0;opacity:.85;font-size:12.5px}
+.hrow{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+main{padding:16px 0 40px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px}
+.card h2{margin:0 0 12px;font-size:14.5px;color:var(--g2);display:flex;justify-content:space-between;align-items:center;gap:10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+label{display:block;font-size:11.5px;color:var(--muted);margin-bottom:4px}
+input,select{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:14px;background:#fff}
+button{background:var(--g);color:#fff;border:0;border-radius:8px;padding:10px 16px;font-size:13.5px;font-weight:600;cursor:pointer}
+button:hover{background:var(--g2)}
+button.ghost{background:#fff;color:var(--muted);border:1px solid var(--line);font-weight:500}
+button.sm{padding:6px 12px;font-size:12.5px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:9px 8px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+th{color:var(--muted);font-weight:600;font-size:11.5px}
+.num{text-align:right}
+.badge{display:inline-block;padding:2px 8px;border-radius:99px;font-size:12px;font-weight:600}
+.plus{background:#fdeceb;color:#c0392b}.minus{background:#e8f5ec;color:#1b7f4b}.even{background:#eef1ef;color:#555}
+.tag{background:#eef3f0;color:var(--muted);font-size:11px;padding:1px 7px;border-radius:99px}
+.scroll{overflow-x:auto}
+.empty{color:var(--muted);font-size:13px;padding:16px;text-align:center}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:20px;background:#1c2320;color:#fff;padding:11px 18px;border-radius:99px;font-size:13px;opacity:0;transition:.25s;pointer-events:none;z-index:9;max-width:90vw;text-align:center}
+.toast.on{opacity:1;bottom:32px}
+.tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.tabs button{background:#fff;color:var(--muted);border:1px solid var(--line);font-weight:500}
+.tabs button.on{background:var(--g);color:#fff;border-color:var(--g)}
+.hint{color:var(--muted);font-size:12px;line-height:1.6}
+.hide{display:none}
+.rank{display:inline-block;width:20px;color:var(--muted);font-size:12px}
+.mono{font-variant-numeric:tabular-nums}
+.who{background:rgba(255,255,255,.18);border-radius:99px;padding:6px 12px;font-size:12.5px;display:flex;gap:8px;align-items:center}
+.who button{background:rgba(255,255,255,.22);padding:4px 10px;font-size:12px}
+.pos{color:#1b7f4b;font-weight:600}.neg{color:#c0392b;font-weight:600}
+.podium{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.podium .p{background:#f2f6f3;border:1px solid var(--line);border-radius:12px;padding:14px 10px;text-align:center}
+.podium .p.p1{background:linear-gradient(160deg,#fff6d9,#ffeab0);border-color:#f0dc9a}
+.podium .p.p2{background:linear-gradient(160deg,#f4f6f8,#e6ebef);border-color:#dbe2e8}
+.podium .p.p3{background:linear-gradient(160deg,#fbeee2,#f4dcc6);border-color:#ecd3b8}
+.podium .m{font-size:20px}
+.podium .n{font-weight:700;font-size:15px;margin:4px 0 2px}
+.podium .v{font-size:17px;font-weight:700;color:var(--g2);font-variant-numeric:tabular-nums}
+.podium .s{font-size:11.5px;color:var(--muted);margin-top:2px}
+.medal{font-size:14px}
+.sub{border-top:1px dashed var(--line);margin-top:14px;padding-top:14px}
+@media(max-width:520px){.podium{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div class="wrap hrow">
+  <div>
+    <h1>⛳ 골프 스코어 · 코인</h1>
+    <p>파 72 기준 핸디캡 · 전월 평균 핸디 기준 보너스 · 내기 코인 이동</p>
+  </div>
+  <div class="who">
+    <span id="whoami">조회 모드</span>
+    <button id="loginBtn">관리자 로그인</button>
+  </div>
+</div></header>
+
+<main class="wrap">
+  <div class="tabs">
+    <button data-tab="crank" class="on">🏅 코인 랭킹</button>
+    <button data-tab="hrank">🎯 핸디 랭킹</button>
+    <button data-tab="rank">회원 현황</button>
+    <button data-tab="rounds">라운드 기록</button>
+    <button data-tab="ledger">코인 장부</button>
+    <button data-tab="monthly">월별 핸디</button>
+    <button data-tab="rules">규칙</button>
+  </div>
+
+  <!-- 관리자 전용 -->
+  <div id="adminBox" class="hide">
+    <div class="card">
+      <h2>스코어 입력</h2>
+      <div class="grid">
+        <div><label>회원명</label><input id="name" list="names" placeholder="홍길동"><datalist id="names"></datalist></div>
+        <div><label>날짜</label><input id="date" type="date"></div>
+        <div><label>코스</label><input id="course" list="courses" placeholder="OO CC 동/서"><datalist id="courses"></datalist></div>
+        <div><label>총타수</label><input id="score" type="number" min="40" max="200" placeholder="98"></div>
+      </div>
+      <div class="row"><button id="addRound">라운드 등록</button><span class="hint">기본 10A, 전월 평균 핸디(또는 등록된 기존 핸디) 경신 시 +5A</span></div>
+    </div>
+
+    <div class="card">
+      <h2>코인 직접 가감 <span class="tag">기존 기록 이관 · 수동 조정</span></h2>
+      <div class="grid">
+        <div><label>회원명</label><input id="adjName" list="names"></div>
+        <div><label>코인 (+/−, 단위 A)</label><input id="adjAmount" type="number" placeholder="120 또는 -20"></div>
+        <div><label>날짜</label><input id="adjDate" type="date"></div>
+        <div><label>메모</label><input id="adjMemo" placeholder="기존 장부 이관"></div>
+      </div>
+      <div class="row"><button id="addAdjust">가감 등록</button><span class="hint">양수는 지급, 음수는 차감. 코인 장부 탭에 이력이 남습니다.</span></div>
+    </div>
+
+    <div class="card">
+      <h2>회원 · 기존 핸디캡 관리</h2>
+      <div class="grid">
+        <div><label>회원명</label><input id="mName" list="names" placeholder="신규 회원도 입력 가능"></div>
+        <div><label>기존 핸디캡 (72 기준, 예 +16)</label><input id="mHcap" type="number" step="0.1" placeholder="16"></div>
+        <div><label>메모</label><input id="mMemo" placeholder="이전 모임 기록"></div>
+      </div>
+      <div class="row"><button id="saveMember">저장</button><span class="hint">라운드 기록이 없는 회원의 보너스 판정 기준으로 쓰입니다. 전월 실제 기록이 생기면 그 값이 우선합니다.</span></div>
+      <div class="sub scroll"><table id="t-members">
+        <thead><tr><th>회원</th><th class="num">기존 핸디캡</th><th>메모</th><th class="num">라운드</th><th></th></tr></thead><tbody></tbody>
+      </table></div>
+      <div class="empty hide" id="e-members">등록된 기존 핸디캡이 없습니다.</div>
+    </div>
+
+    <div class="card">
+      <h2>백업 · 복원</h2>
+      <div class="row" style="margin:0">
+        <button class="ghost" id="backupJson">JSON 백업 내려받기</button>
+        <button class="ghost" id="backupCsv">CSV 내려받기</button>
+        <input type="file" id="restoreFile" accept=".json" style="display:none">
+        <button class="ghost" id="restoreBtn">JSON 복원(불러오기)</button>
+      </div>
+      <p class="hint" style="margin:10px 0 0">복원은 기존 데이터를 <b>덮어씁니다</b>. 새 서버로 옮길 때 백업 파일 하나로 전체 기록이 그대로 넘어갑니다.</p>
+    </div>
+  </div>
+
+  <section id="tab-crank">
+    <div class="card">
+      <h2>🏅 코인 누적 랭킹 <span class="hint" id="casof"></span></h2>
+      <div class="podium" id="cpodium"></div>
+      <div class="scroll"><table id="t-crank">
+        <thead><tr><th>순위</th><th>회원</th><th class="num">라운드 적립</th><th class="num">보너스</th><th class="num">내기 증감</th><th class="num">수동 가감</th><th class="num">보유 코인</th></tr></thead><tbody></tbody>
+      </table></div>
+      <div class="empty" id="e-crank">아직 기록이 없습니다.</div>
+      <p class="hint" style="margin-top:10px">보유 코인 = 라운드 적립 + 보너스 + 내기 증감 + 수동 가감</p>
+    </div>
+  </section>
+
+  <section id="tab-hrank" class="hide">
+    <div class="card">
+      <h2>🎯 핸디 랭킹 <span class="hint">낮을수록 상위</span></h2>
+      <div class="row" style="margin:0 0 12px">
+        <select id="hmode" style="max-width:190px">
+          <option value="avg">평균 핸디 기준</option>
+          <option value="best">베스트 핸디 기준</option>
+        </select>
+        <select id="hperiod" style="max-width:190px"><option value="">전체 기간</option></select>
+        <select id="hmin" style="max-width:170px">
+          <option value="1">최소 1라운드</option>
+          <option value="2">최소 2라운드</option>
+          <option value="3">최소 3라운드</option>
+        </select>
+      </div>
+      <div class="podium" id="hpodium"></div>
+      <div class="scroll"><table id="t-hrank">
+        <thead><tr><th>순위</th><th>회원</th><th class="num">라운드</th><th class="num">평균 핸디</th><th class="num">베스트 핸디</th><th class="num">평균 타수</th><th class="num">최근 추세</th></tr></thead><tbody></tbody>
+      </table></div>
+      <div class="empty" id="e-hrank">조건에 맞는 기록이 없습니다.</div>
+      <p class="hint" style="margin-top:10px">라운드 기록이 아직 없는 회원은 아래 표에 기존 핸디캡으로 별도 표시됩니다. 추세는 직전 라운드 대비 변화(초록 ▼가 개선).</p>
+      <div class="sub scroll hide" id="initBox"><table id="t-init">
+        <thead><tr><th>라운드 기록 없는 회원</th><th class="num">기존 핸디캡</th></tr></thead><tbody></tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <section id="tab-rank" class="hide">
+    <div class="card">
+      <h2>회원 현황 <span class="hint" id="asof"></span></h2>
+      <div class="scroll"><table id="t-rank">
+        <thead><tr><th>회원</th><th class="num">라운드</th><th class="num">평균 타수</th><th class="num">평균 핸디</th><th class="num">기존 핸디</th><th class="num">베스트</th><th class="num">보유 코인</th></tr></thead><tbody></tbody>
+      </table></div>
+      <div class="empty" id="e-rank">아직 기록이 없습니다.</div>
+    </div>
+  </section>
+
+  <section id="tab-rounds" class="hide">
+    <div class="card">
+      <h2>라운드 기록</h2>
+      <div class="row" style="margin:0 0 10px"><select id="filter" style="max-width:200px"><option value="">전체 회원</option></select></div>
+      <div class="scroll"><table id="t-rounds">
+        <thead><tr><th>날짜</th><th>회원</th><th>코스</th><th class="num">타수</th><th class="num">핸디</th><th class="num">기준</th><th class="num">적립</th><th></th></tr></thead><tbody></tbody>
+      </table></div>
+      <div class="empty" id="e-rounds">아직 기록이 없습니다.</div>
+    </div>
+  </section>
+
+  <section id="tab-ledger" class="hide">
+    <div class="card">
+      <h2>내기 코인 이동</h2>
+      <div id="betAdmin" class="hide">
+        <div class="grid">
+          <div><label>보내는 회원</label><input id="frm" list="names"></div>
+          <div><label>받는 회원</label><input id="to" list="names"></div>
+          <div><label>코인</label><input id="amount" type="number" min="1" placeholder="30"></div>
+          <div><label>날짜</label><input id="bdate" type="date"></div>
+          <div><label>메모</label><input id="memo" placeholder="스킨스 3홀"></div>
+        </div>
+        <div class="row"><button id="addBet">이동 등록</button><span class="hint">진 사람 → 이긴 사람. 총량은 변하지 않습니다.</span></div>
+      </div>
+      <div class="scroll" style="margin-top:12px"><table id="t-bets">
+        <thead><tr><th>날짜</th><th>보낸 회원</th><th>받은 회원</th><th class="num">코인</th><th>메모</th><th></th></tr></thead><tbody></tbody>
+      </table></div>
+      <div class="empty" id="e-bets">아직 내기 내역이 없습니다.</div>
+    </div>
+    <div class="card">
+      <h2>수동 가감 이력</h2>
+      <div class="scroll"><table id="t-adj">
+        <thead><tr><th>날짜</th><th>회원</th><th class="num">코인</th><th>메모</th><th></th></tr></thead><tbody></tbody>
+      </table></div>
+      <div class="empty" id="e-adj">수동 가감 내역이 없습니다.</div>
+    </div>
+  </section>
+
+  <section id="tab-monthly" class="hide">
+    <div class="card">
+      <h2>월별 평균 핸디</h2>
+      <div class="scroll"><table id="t-monthly"><thead></thead><tbody></tbody></table></div>
+      <div class="empty" id="e-monthly">아직 기록이 없습니다.</div>
+      <p class="hint" style="margin-top:10px">각 달의 값이 <b>다음 달</b> 보너스 판정 기준이 됩니다.</p>
+    </div>
+  </section>
+
+  <section id="tab-rules" class="hide">
+    <div class="card">
+      <h2>운영 규칙</h2>
+      <p class="hint">
+        <b>핸디캡</b> — 총타수 − 72. 98타 = +16, 70타 = −2. 값이 작을수록 잘 친 것입니다.<br>
+        <b>기본 적립</b> — 라운드 참가 1회당 10A.<br>
+        <b>보너스</b> — 그 회원의 <b>전월 평균 핸디</b>보다 좋은 핸디를 기록하면 +5A (총 15A). 전월 기록이 없으면 관리자가 등록한 <b>기존 핸디캡</b>을 기준으로 쓰고, 그것도 없으면 기준이 없어 기본 10A만 적립됩니다.<br>
+        <b>기준 갱신</b> — 매월 1일 자동 반영. 8월 라운드는 7월 평균 핸디와 비교합니다.<br>
+        <b>내기</b> — 회원 간 코인 이동. 진 사람에서 이긴 사람으로 옮겨가며 전체 총량은 변하지 않고, 잔액은 마이너스가 될 수 있습니다.<br>
+        <b>수동 가감</b> — 관리자가 코인을 직접 더하거나 뺄 수 있습니다. 이전 모임 장부 이관, 이벤트 상금, 정정 등에 사용하며 이력이 남습니다.<br>
+        <b>권한</b> — 관리자만 입력·수정·삭제, 그 외에는 조회 전용.
+      </p>
+    </div>
+  </section>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+const $=id=>document.getElementById(id);
+let D={rounds:[],transfers:[],adjusts:[],members:{},summary:[],monthly:{},bonusCoin:5};
+let TOKEN=sessionStorage.getItem('gtok')||'';
+const toast=m=>{const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(t._x);t._x=setTimeout(()=>t.classList.remove('on'),2600)};
+const fmt=h=>h>0?'+'+h:''+h;
+const cls=h=>h>0?'plus':h<0?'minus':'even';
+const C=v=>`${v} A`;
+const signed=v=>`${v>0?'+':''}${v} A`;
+const today=new Date().toISOString().slice(0,10);
+['date','bdate','adjDate'].forEach(id=>$(id).value=today);
+
+async function api(path,body){
+  const o=body?{method:'POST',headers:{'Content-Type':'application/json','X-Admin-Token':TOKEN},body:JSON.stringify(body)}:{};
+  const r=await fetch(path,o); const j=await r.json().catch(()=>({}));
+  if(!r.ok) throw new Error(j.error||'요청 실패');
+  return j;
+}
+async function load(){ D=await api('/api/data'); render(); }
+
+function setAdmin(on){
+  $('adminBox').classList.toggle('hide',!on);
+  $('betAdmin').classList.toggle('hide',!on);
+  $('whoami').textContent=on?'관리자':'조회 모드';
+  $('loginBtn').textContent=on?'로그아웃':'관리자 로그인';
+}
+$('loginBtn').onclick=async()=>{
+  if(TOKEN){TOKEN='';sessionStorage.removeItem('gtok');setAdmin(false);render();return toast('로그아웃했습니다');}
+  const pw=prompt('관리자 비밀번호'); if(!pw)return;
+  try{const j=await api('/api/login',{pw});TOKEN=j.token;sessionStorage.setItem('gtok',TOKEN);setAdmin(true);render();toast('관리자로 로그인했습니다');}
+  catch(e){toast(e.message)}
+};
+
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');
+  ['crank','hrank','rank','rounds','ledger','monthly','rules'].forEach(t=>$('tab-'+t).classList.toggle('hide',t!==b.dataset.tab));
+});
+
+$('addRound').onclick=async()=>{
+  const p={name:$('name').value.trim(),date:$('date').value,course:$('course').value.trim(),score:parseInt($('score').value,10)};
+  if(!p.name||!p.date||!p.course||!(p.score>=40&&p.score<=200))return toast('입력값을 확인하세요');
+  try{const r=(await api('/api/round',p)).round;
+    toast(`${r.name} ${r.score}타 · 핸디 ${fmt(r.hcap)} · ${r.coin}A${r.bonus?` (기준 ${fmt(r.baseline)} 경신 +${D.bonusCoin}A)`:''}`);
+    $('score').value='';await load();$('name').focus();
+  }catch(e){toast(e.message)}
+};
+$('addBet').onclick=async()=>{
+  const p={frm:$('frm').value.trim(),to:$('to').value.trim(),amount:parseInt($('amount').value,10),date:$('bdate').value,memo:$('memo').value.trim()};
+  if(!p.frm||!p.to||!(p.amount>0)||p.frm===p.to)return toast('이체 정보를 확인하세요');
+  try{await api('/api/transfer',p);$('amount').value='';$('memo').value='';await load();toast(`${p.frm} → ${p.to} ${p.amount}A`);}
+  catch(e){toast(e.message)}
+};
+$('addAdjust').onclick=async()=>{
+  const p={name:$('adjName').value.trim(),amount:parseInt($('adjAmount').value,10),date:$('adjDate').value,memo:$('adjMemo').value.trim()};
+  if(!p.name||!p.amount)return toast('회원명과 0이 아닌 코인을 입력하세요');
+  try{await api('/api/adjust',p);$('adjAmount').value='';await load();toast(`${p.name} ${signed(p.amount)} 반영됨`);}
+  catch(e){toast(e.message)}
+};
+$('saveMember').onclick=async()=>{
+  const name=$('mName').value.trim();
+  if(!name)return toast('회원명을 입력하세요');
+  const raw=$('mHcap').value.trim();
+  try{await api('/api/member',{name,initHcap:raw===''?null:raw,memo:$('mMemo').value.trim()});
+    $('mHcap').value='';$('mMemo').value='';await load();
+    toast(raw===''?`${name} 기존 핸디캡 삭제됨`:`${name} 기존 핸디캡 ${fmt(Number(raw))} 저장됨`);
+  }catch(e){toast(e.message)}
+};
+['hmode','hperiod','hmin'].forEach(id=>$(id).onchange=renderHandi);
+$('filter').onchange=render;
+
+function dl(name,text,type){
+  const b=new Blob(['\ufeff'+text],{type});const a=document.createElement('a');
+  a.href=URL.createObjectURL(b);a.download=name;a.click();toast(name+' 저장됨');
+}
+const stamp=()=>new Date().toISOString().slice(0,10);
+$('backupJson').onclick=()=>dl(`golf-backup-${stamp()}.json`,
+  JSON.stringify({rounds:D.rounds,transfers:D.transfers,adjusts:D.adjusts,members:D.members},null,1),'application/json');
+$('backupCsv').onclick=()=>{
+  const q=v=>`"${String(v??'').replace(/"/g,'""')}"`;
+  let s='구분,날짜,회원/보낸회원,코스/받은회원,타수/코인,핸디,기준핸디,적립,메모\n';
+  D.rounds.forEach(r=>s+=['라운드',r.date,r.name,r.course,r.score,r.hcap,r.baseline??'',r.coin,''].map(q).join(',')+'\n');
+  D.transfers.forEach(t=>s+=['내기',t.date,t.frm,t.to,t.amount,'','','',t.memo].map(q).join(',')+'\n');
+  D.adjusts.forEach(a=>s+=['수동가감',a.date,a.name,'',a.amount,'','','',a.memo].map(q).join(',')+'\n');
+  Object.entries(D.members).forEach(([n,m])=>s+=['기존핸디',n,'','','',m.initHcap??'','','',m.memo||''].map(q).join(',')+'\n');
+  dl(`golf-backup-${stamp()}.csv`,s,'text/csv;charset=utf-8');
+};
+$('restoreBtn').onclick=()=>$('restoreFile').click();
+$('restoreFile').onchange=async e=>{
+  const f=e.target.files[0]; if(!f)return;
+  try{
+    const j=JSON.parse(await f.text());
+    const rounds=j.rounds||[],transfers=j.transfers||[],adjusts=j.adjusts||[];
+    if(!rounds.length&&!transfers.length&&!adjusts.length) return toast('불러올 기록이 없습니다');
+    if(!confirm(`라운드 ${rounds.length}건, 내기 ${transfers.length}건, 수동가감 ${adjusts.length}건을 불러옵니다.\n기존 데이터는 모두 대체됩니다. 계속할까요?`))return;
+    const r=await api('/api/restore',{rounds,transfers,adjusts,members:j.members||{}});
+    await load(); toast(`복원 완료 · 라운드 ${r.rounds} / 내기 ${r.transfers} / 가감 ${r.adjusts}`);
+  }catch(err){toast('복원 실패: '+err.message)}
+  finally{e.target.value=''}
+};
+
+const MED=['🥇','🥈','🥉'];
+function podium(el,items,valFn,subFn){
+  const top=items.slice(0,3);
+  el.innerHTML=top.length?top.map((x,i)=>`<div class="p p${i+1}">
+    <div class="m">${MED[i]}</div><div class="n">${x.name}</div>
+    <div class="v">${valFn(x)}</div><div class="s">${subFn(x)}</div></div>`).join(''):'';
+}
+function rankNums(items,keyFn){
+  let out=[],prev=null,rank=0;
+  items.forEach((x,i)=>{const v=keyFn(x);if(v!==prev){rank=i+1;prev=v}out.push(rank)});
+  return out;
+}
+function delBtn(kind,id){return TOKEN?`<button class="del sm ghost" data-k="${kind}" data-i="${id}">삭제</button>`:''}
+function bindDel(){
+  document.querySelectorAll('.del').forEach(b=>b.onclick=async()=>{
+    if(!confirm('이 항목을 삭제할까요?'))return;
+    const id=b.dataset.k==='member'?b.dataset.i:+b.dataset.i;
+    try{await api('/api/delete',{kind:b.dataset.k,id});await load();toast('삭제되었습니다');}catch(e){toast(e.message)}
+  });
+}
+
+function renderCoin(){
+  const rows=[...D.summary].sort((a,b)=>b.balance-a.balance||a.name.localeCompare(b.name));
+  const rk=rankNums(rows,x=>x.balance);
+  $('casof').textContent=rows.length?`${rows.length}명 · 총 ${rows.reduce((a,b)=>a+b.balance,0)}A 보유`:'';
+  podium($('cpodium'),rows,x=>C(x.balance),x=>`${x.rounds}라운드 · 내기 ${signed(x.bet)}`);
+  $('t-crank').querySelector('tbody').innerHTML=rows.map((s,i)=>`<tr>
+    <td><span class="medal">${rk[i]<=3?MED[rk[i]-1]:''}</span> ${rk[i]}</td>
+    <td><b>${s.name}</b></td>
+    <td class="num mono">${C(s.base)}</td>
+    <td class="num mono">${s.bonus?'+'+s.bonus+' A':'-'}</td>
+    <td class="num mono ${s.bet>0?'pos':s.bet<0?'neg':''}">${signed(s.bet)}</td>
+    <td class="num mono ${s.adjust>0?'pos':s.adjust<0?'neg':''}">${s.adjust?signed(s.adjust):'-'}</td>
+    <td class="num mono"><b>${C(s.balance)}</b></td></tr>`).join('');
+  $('e-crank').classList.toggle('hide',!!rows.length);
+  $('t-crank').classList.toggle('hide',!rows.length);
+}
+
+function renderHandi(){
+  const yms=[...new Set(D.rounds.map(r=>r.date.slice(0,7)))].sort().reverse();
+  const cp=$('hperiod').value;
+  $('hperiod').innerHTML='<option value="">전체 기간</option>'+yms.map(y=>`<option value="${y}"${y===cp?' selected':''}>${y}</option>`).join('');
+  const period=$('hperiod').value,mode=$('hmode').value,min=+$('hmin').value;
+  const pool=D.rounds.filter(r=>!period||r.date.slice(0,7)===period);
+  const names=[...new Set(pool.map(r=>r.name))];
+  let rows=names.map(n=>{
+    const rs=pool.filter(r=>r.name===n).sort((a,b)=>a.date.localeCompare(b.date)||a.id-b.id);
+    const avg=rs.reduce((a,b)=>a+b.hcap,0)/rs.length;
+    return {name:n,rounds:rs.length,avg:Math.round(avg*10)/10,best:Math.min(...rs.map(r=>r.hcap)),
+      avgScore:Math.round(rs.reduce((a,b)=>a+b.score,0)/rs.length*10)/10,
+      trend:rs.length>1?rs[rs.length-1].hcap-rs[rs.length-2].hcap:null};
+  }).filter(x=>x.rounds>=min);
+  const key=x=>mode==='best'?x.best:x.avg;
+  rows.sort((a,b)=>key(a)-key(b)||a.avgScore-b.avgScore||a.name.localeCompare(b.name));
+  const rk=rankNums(rows,key);
+  podium($('hpodium'),rows,x=>fmt(key(x)),x=>`${mode==='best'?'베스트':'평균'} · ${x.rounds}라운드`);
+  $('t-hrank').querySelector('tbody').innerHTML=rows.map((s,i)=>`<tr>
+    <td><span class="medal">${rk[i]<=3?MED[rk[i]-1]:''}</span> ${rk[i]}</td>
+    <td><b>${s.name}</b></td>
+    <td class="num mono">${s.rounds}</td>
+    <td class="num"><span class="badge ${cls(s.avg)}">${fmt(s.avg)}</span></td>
+    <td class="num"><span class="badge ${cls(s.best)}">${fmt(s.best)}</span></td>
+    <td class="num mono">${s.avgScore}</td>
+    <td class="num mono ${s.trend==null?'':s.trend<0?'pos':s.trend>0?'neg':''}">${s.trend==null?'–':s.trend===0?'0':(s.trend<0?'▼ ':'▲ ')+Math.abs(s.trend)}</td></tr>`).join('');
+  $('e-hrank').classList.toggle('hide',!!rows.length);
+  $('t-hrank').classList.toggle('hide',!rows.length);
+
+  const inits=D.summary.filter(s=>!s.rounds&&s.initHcap!=null).sort((a,b)=>a.initHcap-b.initHcap);
+  $('initBox').classList.toggle('hide',!inits.length);
+  $('t-init').querySelector('tbody').innerHTML=inits.map(s=>
+    `<tr><td>${s.name}</td><td class="num"><span class="badge ${cls(s.initHcap)}">${fmt(s.initHcap)}</span></td></tr>`).join('');
+}
+
+function render(){
+  const names=D.summary.map(s=>s.name);
+  $('names').innerHTML=names.map(n=>`<option value="${n}">`).join('');
+  $('courses').innerHTML=[...new Set(D.rounds.map(r=>r.course))].map(c=>`<option value="${c}">`).join('');
+  const cur=$('filter').value;
+  $('filter').innerHTML='<option value="">전체 회원</option>'+names.map(n=>`<option value="${n}"${n===cur?' selected':''}>${n}</option>`).join('');
+  $('asof').textContent=`총 ${D.rounds.length}라운드 · ${names.length}명`;
+
+  $('t-rank').querySelector('tbody').innerHTML=D.summary.map(s=>`<tr>
+    <td>${s.name}</td>
+    <td class="num mono">${s.rounds}</td>
+    <td class="num mono">${s.avgScore??'-'}</td>
+    <td class="num">${s.avgHcap==null?'-':`<span class="badge ${cls(s.avgHcap)}">${fmt(s.avgHcap)}</span>`}</td>
+    <td class="num">${s.initHcap==null?'-':`<span class="badge ${cls(s.initHcap)}">${fmt(s.initHcap)}</span>`}</td>
+    <td class="num mono">${s.best??'-'}</td>
+    <td class="num mono"><b>${C(s.balance)}</b></td></tr>`).join('');
+  $('e-rank').classList.toggle('hide',!!D.summary.length);
+  $('t-rank').classList.toggle('hide',!D.summary.length);
+
+  const list=D.rounds.filter(r=>!cur||r.name===cur);
+  $('t-rounds').querySelector('tbody').innerHTML=list.map(r=>`<tr>
+    <td class="mono">${r.date}</td><td>${r.name}</td><td>${r.course}</td>
+    <td class="num mono">${r.score}</td>
+    <td class="num"><span class="badge ${cls(r.hcap)}">${fmt(r.hcap)}</span></td>
+    <td class="num mono">${r.baseline==null?'–':fmt(r.baseline)+(r.baselineSrc==='init'?' <span class="tag">기존</span>':'')}</td>
+    <td class="num mono">${C(r.coin)}${r.bonus?' 🎯':''}</td>
+    <td>${delBtn('round',r.id)}</td></tr>`).join('');
+  $('e-rounds').classList.toggle('hide',!!list.length);
+  $('t-rounds').classList.toggle('hide',!list.length);
+
+  $('t-bets').querySelector('tbody').innerHTML=D.transfers.map(t=>`<tr>
+    <td class="mono">${t.date}</td><td class="neg">${t.frm}</td><td class="pos">${t.to}</td>
+    <td class="num mono">${C(t.amount)}</td><td>${t.memo||''}</td>
+    <td>${delBtn('transfer',t.id)}</td></tr>`).join('');
+  $('e-bets').classList.toggle('hide',!!D.transfers.length);
+  $('t-bets').classList.toggle('hide',!D.transfers.length);
+
+  $('t-adj').querySelector('tbody').innerHTML=D.adjusts.map(a=>`<tr>
+    <td class="mono">${a.date}</td><td>${a.name}</td>
+    <td class="num mono ${a.amount>0?'pos':'neg'}">${signed(a.amount)}</td>
+    <td>${a.memo||''}</td><td>${delBtn('adjust',a.id)}</td></tr>`).join('');
+  $('e-adj').classList.toggle('hide',!!D.adjusts.length);
+  $('t-adj').classList.toggle('hide',!D.adjusts.length);
+
+  const mem=Object.entries(D.members).filter(([n,m])=>m.initHcap!=null||m.memo)
+    .sort((a,b)=>a[0].localeCompare(b[0]));
+  $('t-members').querySelector('tbody').innerHTML=mem.map(([n,m])=>{
+    const s=D.summary.find(x=>x.name===n)||{rounds:0};
+    return `<tr><td>${n}</td>
+    <td class="num">${m.initHcap==null?'-':`<span class="badge ${cls(m.initHcap)}">${fmt(m.initHcap)}</span>`}</td>
+    <td>${m.memo||''}</td><td class="num mono">${s.rounds}</td>
+    <td>${delBtn('member',n)}</td></tr>`}).join('');
+  $('e-members').classList.toggle('hide',!!mem.length);
+  $('t-members').classList.toggle('hide',!mem.length);
+
+  const yms=[...new Set(D.rounds.map(r=>r.date.slice(0,7)))].sort();
+  $('t-monthly').querySelector('thead').innerHTML='<tr><th>회원</th>'+yms.map(y=>`<th class="num">${y}</th>`).join('')+'</tr>';
+  $('t-monthly').querySelector('tbody').innerHTML=names.map(n=>`<tr><td>${n}</td>`+
+    yms.map(y=>{const v=(D.monthly[n]||{})[y];return `<td class="num">${v==null?'-':`<span class="badge ${cls(v)}">${fmt(v)}</span>`}</td>`}).join('')+'</tr>').join('');
+  $('e-monthly').classList.toggle('hide',!!yms.length);
+  $('t-monthly').classList.toggle('hide',!yms.length);
+
+  renderCoin(); renderHandi(); bindDel();
+}
+
+setAdmin(!!TOKEN);
+load().catch(e=>toast(e.message));
+setInterval(()=>load().catch(()=>{}),20000);
+</script>
+</body>
+</html>

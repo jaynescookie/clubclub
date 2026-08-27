@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: golf-coin
+    runtime: python
+    plan: free
+    buildCommand: ""
+    startCommand: python3 server.py
+    envVars:
+      - key: GOLF_ADMIN_PW
+        sync: false
+      - key: DATA_DIR
+        value: /var/data
+    disk:
+      name: golf-data
+      mountPath: /var/data
+      sizeGB: 1
