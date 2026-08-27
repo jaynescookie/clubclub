@@ -1,0 +1,487 @@
+{
+ "rounds": [],
+ "transfers": [],
+ "adjusts": [
+  {
+   "id": 21,
+   "name": "woogy",
+   "amount": 102,
+   "date": "2026-08-27",
+   "memo": "6/7월코인"
+  },
+  {
+   "id": 20,
+   "name": "Tina",
+   "amount": 107,
+   "date": "2026-08-27",
+   "memo": "6/7월코인"
+  },
+  {
+   "id": 19,
+   "name": "SoU",
+   "amount": 47,
+   "date": "2026-08-27",
+   "memo": "6/7월코인"
+  },
+  {
+   "id": 18,
+   "name": "Lady현아",
+   "amount": 167,
+   "date": "2026-08-27",
+   "memo": "6/7월코인"
+  },
+  {
+   "id": 17,
+   "name": "june",
+   "amount": 145,
+   "date": "2026-08-27",
+   "memo": "6/7월코인"
+  },
+  {
+   "id": 16,
+   "name": "JK",
+   "amount": 55,
+   "date": "2026-08-27",
+   "memo": "6/7월코인"
+  },
+  {
+   "id": 15,
+   "name": "Jen",
+   "amount": 2,
+   "date": "2026-08-27",
+   "memo": "6/7월코인"
+  },
+  {
+   "id": 14,
+   "name": "Hyo",
+   "amount": 17,
+   "date": "2026-08-27",
+   "memo": "6/7월코인"
+  },
+  {
+   "id": 13,
+   "name": "H",
+   "amount": 21,
+   "date": "2026-08-27",
+   "memo": "6/7월코인"
+  },
+  {
+   "id": 12,
+   "name": "Emma",
+   "amount": 127,
+   "date": "2026-08-27",
+   "memo": "6/7월코인"
+  },
+  {
+   "id": 11,
+   "name": "BB",
+   "amount": 85,
+   "date": "2026-08-27",
+   "memo": "6/7월코인"
+  },
+  {
+   "id": 10,
+   "name": "Amy",
+   "amount": 264,
+   "date": "2026-08-27",
+   "memo": "6/7월코인"
+  },
+  {
+   "id": 9,
+   "name": "1003",
+   "amount": 167,
+   "date": "2026-08-27",
+   "memo": "6/7월코인"
+  }
+ ],
+ "members": {
+  "1003": {
+   "initHcap": 17,
+   "memo": ""
+  },
+  "동구": {
+   "initHcap": 35,
+   "memo": ""
+  },
+  "김민성": {
+   "initHcap": 3,
+   "memo": ""
+  },
+  "Amy": {
+   "initHcap": 20,
+   "memo": ""
+  },
+  "짜란": {
+   "initHcap": 23,
+   "memo": ""
+  },
+  "BB": {
+   "initHcap": 25,
+   "memo": ""
+  },
+  "Do": {
+   "initHcap": 18,
+   "memo": ""
+  },
+  "Emma": {
+   "initHcap": 30,
+   "memo": ""
+  },
+  "Hyo": {
+   "initHcap": 23,
+   "memo": ""
+  },
+  "H": {
+   "initHcap": 28,
+   "memo": ""
+  },
+  "Jen": {
+   "initHcap": 39,
+   "memo": ""
+  },
+  "JIN": {
+   "initHcap": 18,
+   "memo": ""
+  },
+  "JK": {
+   "initHcap": 20,
+   "memo": ""
+  },
+  "june": {
+   "initHcap": 20,
+   "memo": ""
+  },
+  "Lady현아": {
+   "initHcap": 25,
+   "memo": ""
+  },
+  "SoU": {
+   "initHcap": 25,
+   "memo": ""
+  },
+  "Tina": {
+   "initHcap": 35,
+   "memo": ""
+  },
+  "woogy": {
+   "initHcap": 25,
+   "memo": ""
+  },
+  "YG": {
+   "initHcap": 20,
+   "memo": ""
+  },
+  "건방진너구리": {
+   "initHcap": 20,
+   "memo": ""
+  },
+  "게쓰": {
+   "initHcap": 25,
+   "memo": ""
+  },
+  "골푸우": {
+   "initHcap": 23,
+   "memo": ""
+  },
+  "구메즈": {
+   "initHcap": 20,
+   "memo": ""
+  },
+  "권가네막내": {
+   "initHcap": 25,
+   "memo": ""
+  },
+  "김민석": {
+   "initHcap": 18,
+   "memo": ""
+  },
+  "김현근": {
+   "initHcap": 20,
+   "memo": ""
+  },
+  "넘버뚜": {
+   "initHcap": 20,
+   "memo": ""
+  },
+  "달콤": {
+   "initHcap": 30,
+   "memo": ""
+  },
+  "둘리": {
+   "initHcap": 7,
+   "memo": ""
+  },
+  "라늬": {
+   "initHcap": 17,
+   "memo": ""
+  },
+  "라쿤": {
+   "initHcap": 20,
+   "memo": ""
+  },
+  "럭키제이": {
+   "initHcap": 20,
+   "memo": ""
+  },
+  "레옹": {
+   "initHcap": 20,
+   "memo": ""
+  },
+  "로밴": {
+   "initHcap": 25,
+   "memo": ""
+  },
+  "리미": {
+   "initHcap": 20,
+   "memo": ""
+  },
+  "마링": {
+   "initHcap": 9,
+   "memo": ""
+  },
+  "마샤": {
+   "initHcap": 25,
+   "memo": ""
+  },
+  "마인드": {
+   "initHcap": 18,
+   "memo": ""
+  },
+  "마크": {
+   "initHcap": 11,
+   "memo": ""
+  },
+  "맥스": {
+   "initHcap": 9,
+   "memo": ""
+  },
+  "범태2": {
+   "initHcap": 30,
+   "memo": ""
+  },
+  "보드리하이": {
+   "initHcap": 20,
+   "memo": ""
+  },
+  "보라": {
+   "initHcap": 45,
+   "memo": ""
+  },
+  "보람": {
+   "initHcap": 25,
+   "memo": ""
+  },
+  "브랜든": {
+   "initHcap": 28,
+   "memo": ""
+  },
+  "션": {
+   "initHcap": 25,
+   "memo": ""
+  },
+  "시우": {
+   "initHcap": 23,
+   "memo": ""
+  },
+  "소연": {
+   "initHcap": 40,
+   "memo": ""
+  },
+  "승진": {
+   "initHcap": 24,
+   "memo": ""
+  },
+  "신잼민": {
+   "initHcap": 25,
+   "memo": ""
+  },
+  "쏠님": {
+   "initHcap": 25,
+   "memo": ""
+  },
+  "씅": {
+   "initHcap": 20,
+   "memo": ""
+  },
+  "아님말구": {
+   "initHcap": 7,
+   "memo": ""
+  },
+  "아롱": {
+   "initHcap": 38,
+   "memo": ""
+  },
+  "아서": {
+   "initHcap": 15,
+   "memo": ""
+  },
+  "아이런": {
+   "initHcap": 20,
+   "memo": ""
+  },
+  "아진": {
+   "initHcap": 25,
+   "memo": ""
+  },
+  "안나": {
+   "initHcap": 40,
+   "memo": ""
+  },
+  "알park": {
+   "initHcap": 25,
+   "memo": ""
+  },
+  "야나": {
+   "initHcap": 30,
+   "memo": ""
+  },
+  "에이든": {
+   "initHcap": 40,
+   "memo": ""
+  },
+  "우기우즈": {
+   "initHcap": 13,
+   "memo": ""
+  },
+  "우성": {
+   "initHcap": 30,
+   "memo": ""
+  },
+  "우찬": {
+   "initHcap": 10,
+   "memo": ""
+  },
+  "윤데레": {
+   "initHcap": 40,
+   "memo": ""
+  },
+  "윰": {
+   "initHcap": 30,
+   "memo": ""
+  },
+  "이린": {
+   "initHcap": 30,
+   "memo": ""
+  },
+  "이식이": {
+   "initHcap": 27,
+   "memo": ""
+  },
+  "이태권": {
+   "initHcap": 20,
+   "memo": ""
+  },
+  "자스민": {
+   "initHcap": 10,
+   "memo": ""
+  },
+  "쟹": {
+   "initHcap": 24,
+   "memo": ""
+  },
+  "제이": {
+   "initHcap": 20,
+   "memo": ""
+  },
+  "제이든": {
+   "initHcap": 10,
+   "memo": ""
+  },
+  "제이디": {
+   "initHcap": 20,
+   "memo": ""
+  },
+  "조쉬": {
+   "initHcap": 16,
+   "memo": ""
+  },
+  "쭈녕": {
+   "initHcap": 40,
+   "memo": ""
+  },
+  "준준": {
+   "initHcap": 25,
+   "memo": ""
+  },
+  "지니": {
+   "initHcap": 18,
+   "memo": ""
+  },
+  "집중력귀신": {
+   "initHcap": 30,
+   "memo": ""
+  },
+  "징가": {
+   "initHcap": 10,
+   "memo": ""
+  },
+  "짱구": {
+   "initHcap": 25,
+   "memo": ""
+  },
+  "차니": {
+   "initHcap": 35,
+   "memo": ""
+  },
+  "찰쓰": {
+   "initHcap": 25,
+   "memo": ""
+  },
+  "최윤선": {
+   "initHcap": 32,
+   "memo": ""
+  },
+  "치키봉": {
+   "initHcap": 15,
+   "memo": ""
+  },
+  "쿠쉬": {
+   "initHcap": 20,
+   "memo": ""
+  },
+  "키스톤": {
+   "initHcap": 25,
+   "memo": ""
+  },
+  "킴미콰이": {
+   "initHcap": 20,
+   "memo": ""
+  },
+  "팬더": {
+   "initHcap": 10,
+   "memo": ""
+  },
+  "핑꾸": {
+   "initHcap": 25,
+   "memo": ""
+  },
+  "하온": {
+   "initHcap": 25,
+   "memo": ""
+  },
+  "하찌": {
+   "initHcap": 40,
+   "memo": ""
+  },
+  "헬로봄": {
+   "initHcap": 18,
+   "memo": ""
+  },
+  "화니": {
+   "initHcap": 20,
+   "memo": ""
+  },
+  "후니훈": {
+   "initHcap": 30,
+   "memo": ""
+  },
+  "희야": {
+   "initHcap": 25,
+   "memo": ""
+  },
+  "히융": {
+   "initHcap": 29,
+   "memo": ""
+  }
+ }
+}
