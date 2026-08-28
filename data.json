@@ -1107,7 +1107,16 @@
    "score": 105
   }
  ],
- "transfers": [],
+ "transfers": [
+  {
+   "id": 287,
+   "frm": "Tina",
+   "to": "제이",
+   "amount": 10,
+   "date": "2026-08-28",
+   "memo": ""
+  }
+ ],
  "adjusts": [
   {
    "id": 21,
@@ -2333,5 +2342,5 @@
    "initHcap": 30
   }
  },
- "seq": 286
+ "seq": 287
 }
