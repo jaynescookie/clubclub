@@ -56,6 +56,7 @@ th{color:var(--muted);font-weight:600;font-size:11.5px}
 .podium .v{font-size:17px;font-weight:700;color:var(--g2);font-variant-numeric:tabular-nums}
 .podium .s{font-size:11.5px;color:var(--muted);margin-top:2px}
 .medal{font-size:14px}
+.coin{display:inline-block;margin-left:6px;background:#e8f5ec;color:var(--g2);font-weight:700;font-size:12.5px;padding:2px 9px;border-radius:99px;font-variant-numeric:tabular-nums}
 .sub{border-top:1px dashed var(--line);margin-top:14px;padding-top:14px}
 .bar{position:sticky;top:0;z-index:15;background:#fff4d6;border-bottom:1px solid #eddfab;padding:10px 0;font-size:13px}
 .bar .wrap{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:space-between}
@@ -92,7 +93,7 @@ th{color:var(--muted);font-weight:600;font-size:11.5px}
     <button data-tab="rank">회원 현황</button>
     <button data-tab="rounds">라운드 기록</button>
     <button data-tab="ledger">내기 · 코인 장부</button>
-    <button data-tab="monthly">월별 핸디</button>
+    <button data-tab="monthly" class="hide">월별 핸디</button>
     <button data-tab="rules">규칙</button>
   </div>
 
@@ -192,10 +193,10 @@ th{color:var(--muted);font-weight:600;font-size:11.5px}
       <h2>🏅 코인 누적 랭킹 <span class="hint" id="casof"></span></h2>
       <div class="podium" id="cpodium"></div>
       <div class="scroll"><table id="t-crank">
-        <thead><tr><th>순위</th><th>회원</th><th class="num">라운드 적립</th><th class="num">보너스</th><th class="num">내기 증감</th><th class="num">수동 가감</th><th class="num">보유 코인</th></tr></thead><tbody></tbody>
+        <thead><tr><th>순위</th><th>회원 · 보유 코인</th><th class="num">라운드 적립</th><th class="num">보너스</th><th class="num">내기 증감</th></tr></thead><tbody></tbody>
       </table></div>
       <div class="empty" id="e-crank">아직 기록이 없습니다.</div>
-      <p class="hint" style="margin-top:10px">보유 코인 = 라운드 적립 + 보너스 + 내기 증감 + 수동 가감</p>
+      <p class="hint" style="margin-top:10px">보유 코인 = 라운드 적립 + 보너스 + 내기 증감 (관리자 수동 가감 포함)</p>
     </div>
   </section>
 
@@ -594,12 +595,10 @@ function renderCoin(){
   podium($('cpodium'),rows,x=>C(x.balance),x=>`${x.rounds}라운드 · 내기 ${signed(x.bet)}`);
   $('t-crank').querySelector('tbody').innerHTML=rows.map((s,i)=>`<tr>
     <td><span class="medal">${rk[i]<=3?MED[rk[i]-1]:''}</span> ${rk[i]}</td>
-    <td><b>${esc(s.name)}</b></td>
+    <td><b>${esc(s.name)}</b> <span class="coin">${C(s.balance)}</span></td>
     <td class="num mono">${C(s.base)}</td>
     <td class="num mono">${s.bonus?'+'+s.bonus+' A':'-'}</td>
-    <td class="num mono ${s.bet>0?'pos':s.bet<0?'neg':''}">${signed(s.bet)}</td>
-    <td class="num mono ${s.adjust>0?'pos':s.adjust<0?'neg':''}">${s.adjust?signed(s.adjust):'-'}</td>
-    <td class="num mono"><b>${C(s.balance)}</b></td></tr>`).join('');
+    <td class="num mono ${s.bet>0?'pos':s.bet<0?'neg':''}">${signed(s.bet)}</td></tr>`).join('');
   $('e-crank').classList.toggle('hide',!!rows.length);
   $('t-crank').classList.toggle('hide',!rows.length);
 }
@@ -647,15 +646,16 @@ function render(){
   $('pending').classList.toggle('hide',!(ADMIN&&DIRTY>0));
   $('pendCount').textContent=DIRTY;
 
-  $('t-rank').querySelector('tbody').innerHTML=VIEW.summary.map(s=>`<tr>
+  const byName=[...VIEW.summary].sort((a,b)=>a.name.localeCompare(b.name,'ko'));
+  $('t-rank').querySelector('tbody').innerHTML=byName.map(s=>`<tr>
     <td>${esc(s.name)}</td><td class="num mono">${s.rounds}</td>
     <td class="num mono">${s.avgScore??'-'}</td>
     <td class="num">${s.avgHcap==null?'-':`<span class="badge ${cls(s.avgHcap)}">${fmt(s.avgHcap)}</span>`}</td>
     <td class="num">${s.initHcap==null?'-':`<span class="badge ${cls(s.initHcap)}">${fmt(s.initHcap)}</span>`}</td>
     <td class="num mono">${s.best??'-'}</td>
     <td class="num mono"><b>${C(s.balance)}</b></td></tr>`).join('');
-  $('e-rank').classList.toggle('hide',!!VIEW.summary.length);
-  $('t-rank').classList.toggle('hide',!VIEW.summary.length);
+  $('e-rank').classList.toggle('hide',!!byName.length);
+  $('t-rank').classList.toggle('hide',!byName.length);
 
   const list=VIEW.rounds.filter(r=>!cur||r.name===cur);
   $('t-rounds').querySelector('tbody').innerHTML=list.map(r=>`<tr>
