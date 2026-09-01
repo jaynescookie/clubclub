@@ -2867,6 +2867,9 @@
   },
   "Hi": {
    "initHcap": 20
+  },
+  "mia": {
+   "initHcap": 20
   }
  },
  "deleted": [
