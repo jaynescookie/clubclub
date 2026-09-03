@@ -2622,6 +2622,7 @@
    "memo": "9월월급+상여금"
   }
  ],
+ "loans": [],
  "members": {
   "1003": {
    "initHcap": 17,
@@ -3032,6 +3033,9 @@
    "initHcap": 20
   },
   "mia": {
+   "initHcap": 20
+  },
+  "신불자": {
    "initHcap": 20
   }
  },
