@@ -2648,17 +2648,6 @@
    "repaid": 55,
    "left": 0,
    "repaidDate": "2026-09-03"
-  },
-  {
-   "id": 394,
-   "name": "신불자",
-   "amount": 50,
-   "date": "2026-09-03",
-   "memo": "",
-   "due": 55,
-   "done": false,
-   "repaid": 0,
-   "left": 55
   }
  ],
  "members": {
@@ -3085,7 +3074,8 @@
   227,
   167,
   351,
-  "member:신불자"
+  "member:신불자",
+  394
  ],
  "seq": 394
 }
