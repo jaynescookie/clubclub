@@ -3008,10 +3008,6 @@
    "initHcap": 18,
    "memo": ""
   },
-  "Emma": {
-   "initHcap": 30,
-   "memo": ""
-  },
   "Hyo": {
    "initHcap": 23,
    "memo": ""
@@ -3407,7 +3403,8 @@
   394,
   391,
   393,
-  392
+  392,
+  "member:Emma"
  ],
  "seq": 442
 }
