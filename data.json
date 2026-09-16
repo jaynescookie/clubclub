@@ -3891,6 +3891,17 @@
    "done": false,
    "repaid": 0,
    "left": 55
+  },
+  {
+   "id": 570,
+   "name": "신잼민",
+   "amount": 50,
+   "date": "2026-09-16",
+   "memo": "",
+   "due": 55,
+   "done": false,
+   "repaid": 0,
+   "left": 55
   }
  ],
  "members": {
@@ -4325,5 +4336,5 @@
   470,
   469
  ],
- "seq": 569
+ "seq": 570
 }
