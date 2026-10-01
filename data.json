@@ -6121,10 +6121,6 @@
    "initHcap": 25,
    "memo": ""
   },
-  "안나": {
-   "initHcap": 40,
-   "memo": ""
-  },
   "알park": {
    "initHcap": 25,
    "memo": ""
@@ -6304,10 +6300,6 @@
   },
   "mia": {
    "initHcap": 20
-  },
-  "둘리": {
-   "initHcap": 7,
-   "memo": ""
   }
  },
  "deleted": [
@@ -6335,7 +6327,8 @@
   549,
   550,
   551,
-  "member:둘리"
+  "member:둘리",
+  "member:안나"
  ],
  "seq": 846
 }
