@@ -6546,6 +6546,17 @@
    "repaid": 55,
    "left": 0,
    "repaidDate": "2026-10-01"
+  },
+  {
+   "id": 939,
+   "name": "로밴",
+   "amount": 50,
+   "date": "2026-10-14",
+   "memo": "",
+   "due": 55,
+   "done": false,
+   "repaid": 0,
+   "left": 55
   }
  ],
  "members": {
@@ -6981,5 +6992,5 @@
   837,
   49
  ],
- "seq": 938
+ "seq": 939
 }
