@@ -6797,6 +6797,17 @@
    "done": false,
    "repaid": 0,
    "left": 55
+  },
+  {
+   "id": 973,
+   "name": "우성",
+   "amount": 50,
+   "date": "2026-10-16",
+   "memo": "",
+   "due": 55,
+   "done": false,
+   "repaid": 0,
+   "left": 55
   }
  ],
  "members": {
@@ -7232,5 +7243,5 @@
   837,
   49
  ],
- "seq": 972
+ "seq": 973
 }
