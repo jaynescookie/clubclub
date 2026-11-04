@@ -8715,6 +8715,17 @@
    "done": false,
    "repaid": 0,
    "left": 55
+  },
+  {
+   "id": 1153,
+   "name": "김민성",
+   "amount": 50,
+   "date": "2026-11-04",
+   "memo": "",
+   "due": 55,
+   "done": false,
+   "repaid": 0,
+   "left": 55
   }
  ],
  "members": {
