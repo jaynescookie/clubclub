@@ -9862,10 +9862,6 @@
    "initHcap": 10,
    "memo": ""
   },
-  "쟹": {
-   "initHcap": 24,
-   "memo": ""
-  },
   "제이": {
    "initHcap": 20,
    "memo": ""
@@ -10057,7 +10053,8 @@
   844,
   45,
   1275,
-  "member:고두"
+  "member:고두",
+  "member:쟹"
  ],
  "seq": 1364
 }
